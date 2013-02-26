@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>StaticVoid.Core.IO</id>
+    <version>1.0</version>
+    <title>StaticVoid IO Extentions</title>
+    <authors>Luke McGregor</authors>
+    <owners>Luke McGregor</owners>
+    <licenseUrl>http://www.opensource.org/licenses/lgpl-3.0.html</licenseUrl>
+    <projectUrl>https://trello.com/b/sjwLdTjC</projectUrl>
+    <iconUrl>http://cdn1.iconfinder.com/data/icons/free-business-desktop-icons/256/Card_file.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Contains simple fluent extentions to System.IO to allow for a more syntactically elegant file/directory traversal.
+
+If you find this useful or have any sugguestions please feel free to leave a comment in nuget or on my blog entry.
+
+Take a look here to see what im currently working on in this library and vote on items you would like added https://trello.com/b/sjwLdTjC</description>
+    <summary>Contains simple fluent extentions to System.IO to allow for a more syntactically elegant file/directory traversal.</summary>
+    <copyright>Luke McGregor</copyright>
+    <references>
+      <reference file="StaticVoid.Core.IO.dll" />
+    </references>
+  </metadata>
+</package>

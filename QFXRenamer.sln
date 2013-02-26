@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QFXRenamer", "QFXRenamer\QFXRenamer.csproj", "{3A036E72-A9A9-4BE7-B610-EC80F49522A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A036E72-A9A9-4BE7-B610-EC80F49522A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A036E72-A9A9-4BE7-B610-EC80F49522A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A036E72-A9A9-4BE7-B610-EC80F49522A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A036E72-A9A9-4BE7-B610-EC80F49522A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
