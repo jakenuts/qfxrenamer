@@ -54,70 +54,76 @@ namespace QFXRenamer
                 return;
             }
 
-            var qfxFiles = rd.Files(f => f.Name.EndsWith(".qfx"));
+            var webConnectFiles = rd.Files(f => f.Name.EndsWith(".qfx") || f.Name.EndsWith(".qbo"));
 
-            foreach (var qfxFile in qfxFiles)
+            foreach (var webConnectFile in webConnectFiles)
             {
-                var text = File.ReadAllText(qfxFile.FullName);
-
-
-                var bidMatch = BankNumExpression.Match(text);
-                var orgMatch = BankNameExpression.Match(text);
-                var accountMatch = AccountNumberExpression.Match(text);
-                var dateStartMatch = DateStartExpression.Match(text);
-                var dateEndMatch = DateEndExpression.Match(text);
-
-                if (!accountMatch.Success || !dateStartMatch.Success || !dateEndMatch.Success)
-                {
-                    Debug.WriteLine(text);
-
-                    Console.Error.WriteLine("'" + qfxFile.FullName + "' could not be parsed.");
-                    continue;
-                }
-
-                var bankName = orgMatch.Groups["org"].Value.Trim();
-
-                if (bankName == string.Empty)
-                    bankName = bidMatch.Groups["intubid"].Value.Trim();
-
-                if (bankName == string.Empty)
-                    bankName = "UnknownBank";
-
-                var accountName = accountMatch.Groups["account"].Value.Trim();
-                var startDate = dateStartMatch.Groups["datestart"].Value.Trim();
-                var endDate = dateEndMatch.Groups["dateend"].Value.Trim();
-
-                var sd = startDate.Substring(0, 4) + "-"
-                         + startDate.Substring(4, 2) + "-"
-                         + startDate.Substring(6, 2);
-
-                var ed = endDate.Substring(0, 4) + "-"
-                         + endDate.Substring(4, 2) + "-"
-                         + endDate.Substring(6, 2);
-
-                var filename = string.Format(
-                    "{0} {1} {2} to {3}.qfx",
-                    bankName,
-                    accountName,
-                    sd, ed);
-
-                var target = Path.Combine(qfxFile.DirectoryName, filename);
-
-                if (String.Compare(target, qfxFile.FullName, StringComparison.InvariantCultureIgnoreCase) == 0)
-                    continue;
-
-                var rename = target;
-                var count = 0;
-
-                while (File.Exists(rename))
-                {
-                    rename = target.Replace(".qfx", " (" + (++count) + ").qfx");
-                }
-
-                Debug.WriteLine("Renaming " + qfxFile.Name + " to " + rename);
-
-                qfxFile.MoveTo(rename);
+                RenameIntuitFile(webConnectFile);
             }
+        }
+
+        private static void RenameIntuitFile(FileInfo qfxFile)
+        {
+            var text = File.ReadAllText(qfxFile.FullName);
+            
+            var bidMatch = BankNumExpression.Match(text);
+            var orgMatch = BankNameExpression.Match(text);
+            var accountMatch = AccountNumberExpression.Match(text);
+            var dateStartMatch = DateStartExpression.Match(text);
+            var dateEndMatch = DateEndExpression.Match(text);
+
+            if (!accountMatch.Success || !dateStartMatch.Success || !dateEndMatch.Success)
+            {
+                Debug.WriteLine(text);
+
+                Console.Error.WriteLine("'" + qfxFile.FullName + "' could not be parsed.");
+                return;
+            }
+
+            var bankName = orgMatch.Groups["org"].Value.Trim();
+
+            if (bankName == string.Empty)
+                bankName = bidMatch.Groups["intubid"].Value.Trim();
+
+            if (bankName == string.Empty)
+                bankName = "UnknownBank";
+
+            var accountName = accountMatch.Groups["account"].Value.Trim();
+            var startDate = dateStartMatch.Groups["datestart"].Value.Trim();
+            var endDate = dateEndMatch.Groups["dateend"].Value.Trim();
+
+            var sd = startDate.Substring(0, 4) + "-"
+                     + startDate.Substring(4, 2) + "-"
+                     + startDate.Substring(6, 2);
+
+            var ed = endDate.Substring(0, 4) + "-"
+                     + endDate.Substring(4, 2) + "-"
+                     + endDate.Substring(6, 2);
+
+            var filename = string.Format(
+                "{0} {1} {2} to {3}{4}",
+                bankName,
+                accountName,
+                sd,
+                ed,
+                qfxFile.Extension);
+
+            var target = Path.Combine(qfxFile.DirectoryName, filename);
+
+            if (String.Compare(target, qfxFile.FullName, StringComparison.InvariantCultureIgnoreCase) == 0)
+                return;
+
+            var rename = target;
+            var count = 0;
+
+            while (File.Exists(rename))
+            {
+                rename = target.Replace(qfxFile.Extension, " (" + (++count) + ")" + qfxFile.Extension);
+            }
+
+            Debug.WriteLine("Renaming " + qfxFile.Name + " to " + rename);
+
+            qfxFile.MoveTo(rename);
         }
     }
 
